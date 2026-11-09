@@ -1,1 +1,20 @@
+# Local notes / reference material
 info/
+
+# Generated output
+digest.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets (e.g. local TELEGRAM_TOKEN)
+.env
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
