@@ -1,0 +1,39 @@
+name: Daily news digest
+
+on:
+  schedule:
+    # Goal: 10:00 Prague time (Europe/Prague).
+    # 08:00 and 09:00 UTC; the gate step keeps only the run that lands at 10:xx Prague time (handles DST)
+    - cron: "0 8 * * *"
+    - cron: "0 9 * * *"
+  workflow_dispatch:   # manual "Run workflow" button for testing
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Prague time
+        id: gate
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ "$(TZ=Europe/Prague date +%H)" != "10" ]; then
+            echo "It is not 10:xx in Prague - skipping this run."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+      - run: pip install feedparser
+        if: steps.gate.outputs.run == 'true'
+      - run: python fetch_news.py
+        if: steps.gate.outputs.run == 'true'
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Show the digest on the run summary page
+        if: always() && steps.gate.outputs.run == 'true'
+        run: cat digest.md >> "$GITHUB_STEP_SUMMARY" || true

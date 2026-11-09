@@ -1,0 +1,28 @@
+# Sourсes
+
+Simon Willison | https://simonwillison.net/atom/everything/
+OpenAI | https://openai.com/news/rss.xml
+Google DeepMind | https://deepmind.google/blog/rss.xml
+Mistral AI | https://mistral.ai/news/rss  
+Pragmatic Engineer | https://newsletter.pragmaticengineer.com/feed
+Max Woolf (minimaxir) | https://minimaxir.com/index.xml                 
+How to AI (Ruben Hassid) | https://ruben.substack.com/feed
+Andrej Karpathy | https://karpathy.ai/feed
+
+Anthropic News (non-official) | https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
+
+# News
+The Information | https://www.theinformation.com/feed                   
+MIT Technology Review | https://www.technologyreview.com/feed
+LWN.net | https://lwn.net/headlines/rss
+Neowin | https://www.neowin.net/news/rss/                                 
+Seattle Times | https://www.seattletimes.com/business/feed/     
+SafeDep | https://safedep.io/rss.xml                            
+
+Hacker News (100+) | https://hnrss.org/newest?points=100
+
+# ───────── (Twitter): no free RSS ─────────
+# @amasad           (Amjad Masad, CEO Replit)
+# @OpenAIDevs
+# @swyx
+# @alexalbert__     (Alex Albert)
