@@ -7,6 +7,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 from calendar import timegm
@@ -127,9 +128,13 @@ def chunk(blocks, limit=3800):
     """Pack blocks into messages that stay under Telegram's 4096-character limit."""
     messages, cur = [], ""
     for b in blocks:
-        # A single oversized block is split into pieces
-        for part in ([b] if len(b) <= limit else
-                     [b[i:i + limit] for i in range(0, len(b), limit)]):
+        # An oversized block is split between lines (never inside an HTML tag);
+        # only a single line longer than the limit is cut as a last resort
+        parts = [b] if len(b) <= limit else [
+            piece for line in b.split("\n")
+            for piece in ([line] if len(line) <= limit else
+                          [line[i:i + limit] for i in range(0, len(line), limit)])]
+        for part in parts:
             if cur and len(cur) + len(part) + 1 > limit:
                 messages.append(cur)
                 cur = ""
@@ -146,9 +151,15 @@ def send_telegram(token, chat_id, text):
     }).encode()
     req = urllib.request.Request(
         f"https://api.telegram.org/bot{token}/sendMessage", data=data)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        if not json.load(r).get("ok"):
-            raise RuntimeError("Telegram returned an error")
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            resp = json.load(r)
+    except urllib.error.HTTPError as e:
+        # Telegram explains the problem in the response body (e.g. "can't parse entities")
+        body = e.read().decode("utf-8", "replace")
+        raise RuntimeError(f"Telegram HTTP {e.code}: {body}") from None
+    if not resp.get("ok"):
+        raise RuntimeError(f"Telegram returned an error: {resp}")
 
 
 def main():
@@ -158,8 +169,15 @@ def main():
     open("digest.md", "w", encoding="utf-8").write(plain)  # also shown in the GitHub run summary
     token, chat = os.getenv("TELEGRAM_TOKEN"), os.getenv("TELEGRAM_CHAT_ID")
     if token and chat:
-        for msg in chunk(blocks):
-            send_telegram(token, chat, msg)
+        messages, errors = chunk(blocks), []
+        for n, msg in enumerate(messages, 1):
+            try:
+                send_telegram(token, chat, msg)
+            except Exception as e:  # keep sending the rest, report at the end
+                errors.append(f"message {n}/{len(messages)}: {e}")
+        if errors:
+            print("\nTelegram send failures:\n" + "\n".join(errors), file=sys.stderr)
+            sys.exit(1)
     else:
         print("\n(TELEGRAM_TOKEN / TELEGRAM_CHAT_ID not set - sending skipped)",
               file=sys.stderr)
