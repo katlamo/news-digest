@@ -4,8 +4,8 @@ on:
   schedule:
     # Goal: 10:00 Prague time (Europe/Prague).
     # 08:00 and 09:00 UTC; the gate step keeps only the run that lands at 10:xx Prague time (handles DST)
-    - cron: "0 8 * * *"
-    - cron: "0 9 * * *"
+    - cron: "23 8 * * *"
+    - cron: "23 9 * * *"
   workflow_dispatch:   # manual "Run workflow" button for testing
 
 jobs:

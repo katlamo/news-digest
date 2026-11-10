@@ -7,7 +7,7 @@ Mistral AI | https://mistral.ai/news/rss
 Pragmatic Engineer | https://newsletter.pragmaticengineer.com/feed
 Max Woolf (minimaxir) | https://minimaxir.com/index.xml                 
 How to AI (Ruben Hassid) | https://ruben.substack.com/feed
-Andrej Karpathy | https://karpathy.ai/feed
+Andrej Karpathy | https://karpathy.bearblog.dev/feed/
 
 Anthropic News (non-official) | https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
 
