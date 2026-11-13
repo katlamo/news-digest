@@ -7,6 +7,11 @@ Mistral AI | https://mistral.ai/news/rss
 Pragmatic Engineer | https://newsletter.pragmaticengineer.com/feed
 Max Woolf (minimaxir) | https://minimaxir.com/index.xml                 
 Andrej Karpathy | https://karpathy.bearblog.dev/feed/
+Hamel Husain | https://hamel.dev/index.xml
+Eugene Yan | https://eugeneyan.com/rss/
+Phil Schmid	| https://www.philschmid.de/rss
+Latent Space | https://www.latent.space/feed
+Chip Huyen | https://chiphuyen.substack.com/feed
 
 Anthropic News (non-official) | https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
 
@@ -14,8 +19,7 @@ Anthropic News (non-official) | https://raw.githubusercontent.com/Olshansk/rss-f
 The Information | https://www.theinformation.com/feed                   
 MIT Technology Review | https://www.technologyreview.com/feed
 LWN.net | https://lwn.net/headlines/rss
-Neowin | https://www.neowin.net/news/rss/                                 
-Seattle Times | https://www.seattletimes.com/business/feed/     
+Neowin | https://www.neowin.net/news/rss/                                  
 SafeDep | https://safedep.io/rss.xml                            
 
 Hacker News (300+) | https://hnrss.org/newest?points=300
