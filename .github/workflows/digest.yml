@@ -2,9 +2,9 @@ name: Daily news digest
 
 on:
   schedule:
-    # 09:00 and 10:00 UTC; the gate step keeps only the run that lands at 10:xx Prague time (handles DST)
-    - cron: "23 9 * * *"
-    - cron: "23 10 * * *"
+    # 08:17 UTC = 10:17 Prague in summer, 09:17 UTC = 10:17 Prague in winter; the gate step keeps the right one
+    - cron: "17 8 * * *"
+    - cron: "17 9 * * *"
   workflow_dispatch:   # manual "Run workflow" button for testing
 
 jobs:
@@ -13,9 +13,17 @@ jobs:
     steps:
       - name: Check Prague time
         id: gate
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
         run: |
-          if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ "$(TZ=Europe/Prague date +%H)" != "10" ]; then
-            echo "It is not 10:xx in Prague - skipping this run."
+          # Decide by WHICH cron fired, not by the clock: GitHub often starts scheduled
+          # runs 30-60+ min late, which would push the run past 10:59 Prague and skip it.
+          OFFSET=$(TZ=Europe/Prague date +%z)   # +0100 in winter, +0200 in summer
+          if [ "$OFFSET" = "+0200" ]; then WANTED="17 8 * * *"; else WANTED="17 9 * * *"; fi
+          echo "Event: $GITHUB_EVENT_NAME | cron: '$SCHEDULE' | wanted: '$WANTED'"
+          echo "Now: $(date -u +%H:%M) UTC / $(TZ=Europe/Prague date +%H:%M) Prague ($OFFSET)"
+          if [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ "$SCHEDULE" != "$WANTED" ]; then
+            echo "This cron is not the 10:xx-Prague one for the current DST offset - skipping."
             echo "run=false" >> "$GITHUB_OUTPUT"
           else
             echo "run=true" >> "$GITHUB_OUTPUT"
