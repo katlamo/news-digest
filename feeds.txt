@@ -18,6 +18,8 @@ Cameron Wolfe | https://cameronrwolfe.substack.com/feed
 One Useful Thing | https://www.oneusefulthing.org/feed
 Hugging Face Blog | https://huggingface.co/blog/feed.xml
 Import AI (Jack Clark) | https://importai.substack.com/feed
+LessWrong | https://www.lesswrong.com/feed.xml
+Emergent | https://emergent.sh/news-sitemap.xml
 
 Anthropic News (non-official) | https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
 Anthropic News (non-official) | https://znck.github.io/feeds/anthropic-engineering.xml
